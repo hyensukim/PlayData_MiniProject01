@@ -1,0 +1,26 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import services.Service;
+
+public class TestMain {
+	public static void main(String[] args) {
+		HashMap<ArrayList<String>,String> map = new HashMap<>();
+		
+		ArrayList<String> arr = new ArrayList<>();
+		
+		arr.add("x");
+		arr.add("x");
+		arr.add("x");
+		arr.add("x");
+		arr.add("x");
+		
+		map.put(arr, "12");
+		
+		System.out.println(map);
+		
+		Service service = new Service();
+		service.addBeverage();
+		service.RunningVendMach();
+	}
+}

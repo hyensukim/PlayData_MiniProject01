@@ -1,0 +1,12 @@
+package objects;
+
+public class Coke extends Beverage {
+	public Coke() {
+		this.setName("코카콜라");
+		this.setPrice(1500);
+		this.setManufacturer("코카콜라");
+		this.setSoftDrink(isSoftDrink());
+		
+		
+	}
+}

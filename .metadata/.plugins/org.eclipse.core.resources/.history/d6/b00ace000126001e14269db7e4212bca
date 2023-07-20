@@ -1,0 +1,49 @@
+package objects;
+
+import java.util.*;
+
+public class BeverageHolder {
+	
+	// 음료 홀더
+	private List<Beverage> holder = new ArrayList<>();
+
+	// 홀더에 음료 추가
+	public void add(Beverage beverage, int num) {
+		for(int i=0; i < num; i++) {
+			holder.add(beverage);
+		}
+	}
+	
+	// 홀더에 음료 빼기
+	public Beverage draw() {
+		Beverage beverage = null;
+		if(getRemain() != 0) {
+			beverage = holder.remove(holder.size()-1);
+		}
+		return beverage;
+	}
+	
+	// 홀더 안에 음료 조회
+	public Beverage getBeverage() {
+		Beverage beverage = null;
+		
+		if(!holder.isEmpty()) {
+			beverage = holder.get(0);
+		}else {
+			beverage = new Beverage() {};
+		}
+		
+		return beverage;
+	}
+	
+	// 음료 남은 갯수 조회
+	public int getRemain() {
+		return holder.size();
+	}
+	
+	// 홀더 음료 매진 여부 조회
+//	public boolean checkSoldOut() {
+//		return getRemain() == 0 ? true : false;
+//	}
+	
+}

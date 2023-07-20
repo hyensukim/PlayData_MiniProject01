@@ -1,0 +1,12 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import services.Service;
+
+public class TestMain {
+	public static void main(String[] args) {		
+		Service service = new Service();
+		service.addBeverage();
+		service.RunningVendMach();
+	}
+}

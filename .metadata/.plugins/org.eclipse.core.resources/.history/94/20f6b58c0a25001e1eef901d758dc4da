@@ -1,0 +1,7 @@
+package objects;
+
+public class Coke extends Beverage {
+	
+	public Coke() {
+	}
+}

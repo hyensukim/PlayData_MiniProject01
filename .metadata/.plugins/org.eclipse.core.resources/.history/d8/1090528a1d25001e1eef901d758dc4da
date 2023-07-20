@@ -1,0 +1,12 @@
+package objects;
+
+public class ZeroCider extends Beverage{
+	public ZeroCider() {
+		this.setName("제로사이다");
+		this.setPrice(1700);
+		this.setManufacturer("코카콜라");
+		this.setSoftDrink(true);
+		this.setZeroSugar(true);
+	}
+
+}

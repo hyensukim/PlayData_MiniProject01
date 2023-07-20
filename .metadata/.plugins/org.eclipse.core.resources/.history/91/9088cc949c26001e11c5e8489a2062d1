@@ -1,0 +1,259 @@
+package objects;
+
+import java.util.*;
+
+public class BeverageVendMach {
+
+	//전원
+	private boolean power = false;
+	
+	//투입 금액
+	private int cash;
+	
+	//누적 금액
+	private int stack = 0;
+	
+	//반환레버 상태
+	private static boolean returnLever = false;
+
+	//선택된 음료종류
+	private Beverage selectedBeverage;
+	
+	//음료 홀더
+	private BeverageHolder holder;
+	
+	//음료 목록 - 여러개의 음료 홀더를 가지고 있어야함.(재고 관리를 위해서)
+	private HashMap<String,BeverageHolder> list = new HashMap<>();
+	
+	//싱글톤 객체 구현--S
+	private static BeverageVendMach mach = new BeverageVendMach();
+	
+	private BeverageVendMach() {}
+	
+	public static BeverageVendMach getVendingMachine() {
+		return mach;
+	}
+	//싱글톤 객체 구현--E
+	
+	/**
+	 * 전원 켜기
+	 */
+	public void powerOn() {
+		
+		power = true;
+			
+		System.out.println("=======================================");
+		System.out.println("   전원이 켜졌습니다. 음료 자판기 사용이 가능합니다.");
+		System.out.println("=======================================");
+	}
+	
+	/**
+	 * 전원 끄기
+	 */
+	public void powerOff() {
+		
+		power = false;
+		
+		System.out.println("=======================================");
+		System.out.println("   전원이 꺼졌습니다. 음료 자판기 운행이 종료됩니다.");
+		System.out.println("=======================================");
+	}
+	
+	/**
+	 * 반환레버 작동
+	 */
+	public void pullReturnLever() {
+		returnLever = true;
+	}
+	
+	/**
+	 *  자판기에 음료 종류 추가
+	 * @param beverage
+	 * @param num
+	 */
+	public void addBeverageKind(Beverage beverage, int num) {
+		
+		holder = new BeverageHolder();
+		String name = beverage.getName();
+		
+		holder.add(beverage, num);
+		
+		list.put(name, holder);
+		
+		holder = null;
+	}
+	
+	/**
+	 * 음료 종류 리스트 출력
+	 * 음료명 - 가격
+	 * @return
+	 */
+	public void showList() {
+		
+		ArrayList<Beverage> bs = getBeverages();
+		Iterator<Beverage> it = bs.iterator();
+		
+		System.out.println("============= [음료 목록] ================");
+		
+		while(it.hasNext() ) {
+			Beverage b = it.next();
+			
+			String name = b.getName();
+			int price = b.getPrice();
+			
+			System.out.println("음료명 : " + name + " - 가격 : " + price + "원");
+			System.out.println();
+		}
+	}
+
+	/**
+	 * 뽑을 수 있는 음료 리스트 출력
+	 */
+	public void showAvailableList() {
+		
+		ArrayList<Beverage> bs = getBeverages();
+		Iterator<Beverage> it = bs.iterator();
+		
+		System.out.println("============= [구매 가능 목록] ================");
+		
+		while(it.hasNext()) {
+			Beverage b = it.next();
+			String name = b.getName();
+			int price = b.getPrice();
+			
+			if(stack >= price && name != null && price > 0) {
+				System.out.println("음료명 : " + name + " - 가격 : " + price + "원");
+				System.out.println();
+				
+			}else {
+				System.out.println("구매 가능한 음료가 없습니다.");
+				this.showList();
+			}
+		}
+	}
+	
+	/**
+	 * 금액 받기
+	 * @param cash
+	 * @return stack
+	 */
+	public int receiveCash(int cash) {
+		this.cash = cash;
+		stack += cash;
+		return stack;
+	}
+
+	/**
+	 * 음료 선택
+	 * selectedBeverage로 선택.
+	 * @param inputName
+	 */
+	public Beverage selectBeverage(String inputName) {
+		
+		if(list.get(inputName) == null) {
+			selectedBeverage = null;
+		}else {
+			ArrayList<Beverage> bs = getBeverages();
+			Iterator<Beverage> it = bs.iterator();
+			
+			while(it.hasNext()) {
+				Beverage b = it.next();
+				String name = b.getName();
+				
+				if(name != null && name.equalsIgnoreCase(inputName)) {
+					selectedBeverage = b;
+				}
+			}
+		}
+		return selectedBeverage;
+	}
+	
+	/**
+	 * 음료 제공 조건
+	 * 1. 음료 가격이 누적 금액 이하인지 여부 확인.
+	 * 2. 매진 여부 확인.
+	 * @return
+	 */
+	public Beverage serveBeverage() {
+		
+		Beverage b = selectedBeverage;
+		String name = b.getName();
+		int price = b.getPrice();
+		
+		BeverageHolder bh = list.get(name);
+		
+		if(bh.getRemain() > 0 && stack >= price) {
+			bh.draw();
+		}else if(bh.getRemain() == 0) {
+			System.out.println("재고가 없습니다.");
+			b = null;
+		}else if(stack < price) {
+			System.out.println("금액이 부족합니다.");
+			b = null;
+		}
+		
+		return b;
+	}
+	
+	/**
+	 * 잔돈 반환하는 경우
+	 * 1. 투입 직후 반환
+	 * 2. 음료 선택 후 반환
+	 * @param bverage
+	 * @return returnCash
+	 */
+	public int returnCash(Beverage beverage) {
+		
+		boolean insertCash = cash > 0 ? true : false;
+		boolean isSelected = selectedBeverage != null ? true : false;
+		int returnCash = 0;
+		
+		if( insertCash && returnLever && !isSelected) {
+			System.out.println("반환레버 동작");
+			returnCash = cash;
+			
+			cash = 0;
+			stack -= cash;
+			returnLever = false;
+		}
+		
+		if( insertCash && isSelected && beverage != null) {
+			System.out.println("거스름돈 반환");
+			int price = beverage.getPrice();
+			stack -= price;
+			returnCash = stack;
+		}
+		
+		return returnCash = returnCash < 0 ? 0 : returnCash;
+	}
+	
+	public int returnCash() {
+		return this.returnCash(null);
+	}
+	
+	public int getSize() {
+		return list.size();
+	}
+	
+	// 음료리스트 조회
+	private ArrayList<Beverage> getBeverages() {
+		ArrayList<Beverage> bs = new ArrayList<>();
+		
+		Iterator<Map.Entry<String, BeverageHolder>> it = list.entrySet().iterator();
+		
+		while(it.hasNext()) {
+			
+			Map.Entry<String, BeverageHolder> e = it.next();
+			BeverageHolder bh = e.getValue();
+			
+			boolean soldOut = bh.isSoldOut();
+			
+			if(!soldOut) {
+				Beverage b = bh.getBeverage();
+				bs.add(b);
+			}
+		}
+		
+		return bs;
+	}
+}

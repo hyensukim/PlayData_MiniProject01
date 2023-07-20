@@ -1,0 +1,84 @@
+package services;
+
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import objects.Beverage;
+import objects.BeverageVendMach;
+import objects.Cider;
+import objects.Coke;
+import objects.Water;
+import objects.ZeroCider;
+import objects.ZeroCoke;
+
+public class Service2 {
+	
+private BeverageVendMach bvm = BeverageVendMach.getVendingMachine();
+
+private String sentence = "";
+
+	public void addBeverage() {
+		
+		bvm.addBeverageKind(new Coke(), 10);
+		bvm.addBeverageKind(new Cider(), 10);
+		bvm.addBeverageKind(new ZeroCoke(), 10);
+		bvm.addBeverageKind(new ZeroCider(), 10);
+		bvm.addBeverageKind(new Water(), 10);
+	}
+	
+	public void RunningVendMach() {	
+	
+		bvm.powerOn();
+		
+		bvm.showList();
+		
+		Beverage b = null;
+		
+		System.out.print("== 음료를 선택해주세요! >>");
+		
+		while(true) {
+			
+			Scanner sc = new Scanner(System.in);
+			String inputName = sc.next();
+			
+			b = bvm.selectBeverage(inputName);
+			
+			if(b == null) {
+				continue;
+			}else {			
+			
+				System.out.println("== " + inputName + "을 선택하셨습니다!");
+				System.out.println("== 음료를 재선택하고 싶으시면 'q'를 입력해주세요. ");
+			
+				if(inputName.equals("q")) {
+					continue;
+				}
+			}
+			
+			break;
+		}	
+		
+		System.out.println();
+		
+		while(true) {
+			
+			int price = b.getPrice();
+			
+			
+			System.out.print("== 현금을 투입하세요! >>");
+			
+			int stack = bvm.receiveCash(cash);
+			
+			System.out.println("현재 투입한 금액 : " + stack + "원");
+			
+			if(stack >= price) {
+				System.out.println("음료가 뽑혔습니다.");
+				Beverage buyedB = bvm.serveBeverage();
+				int returnCash = bvm.returnCash(buyedB);
+				System.out.println("거스름돈 " + returnCash + "원을 반환합니다.");
+			}
+		}
+	}
+}
+

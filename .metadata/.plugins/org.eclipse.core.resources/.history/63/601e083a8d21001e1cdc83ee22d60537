@@ -1,0 +1,11 @@
+package utils;
+
+import java.util.HashMap;
+import constants.Price;
+
+public interface ShowList {
+	
+	// 음료 리스트를 보여주다.
+	HashMap<Object,Price> showList();
+	
+}

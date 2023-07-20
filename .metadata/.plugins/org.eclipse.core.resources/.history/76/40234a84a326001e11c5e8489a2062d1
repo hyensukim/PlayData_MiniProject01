@@ -1,0 +1,21 @@
+
+import services.Service;
+import services.Service2;
+
+public class TestMain {
+	public static void main(String[] args) {	
+//		Service service = new Service();
+//		service.addBeverage();
+//		service.RunningVendMach();
+		
+		Service2 service = new Service2();
+		service.addBeverage();
+		service.RunningVendMach();
+		
+//		ArrayList<String> li = new ArrayList<>();
+//		li.add("김");
+//		li.remove(0);
+//		if(!li.isEmpty()) {li.get(0);}
+		
+	}
+}

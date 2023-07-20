@@ -1,0 +1,42 @@
+package objects;
+
+import java.util.*;
+
+public class BeverageHolder {
+	
+	static List<Beverage> holder = new ArrayList<>();
+	
+	static boolean isSoldOut = false;
+	
+	// 음료 정보 조회
+	public Beverage getBeverage() {
+		Beverage beverage = holder.get(0);
+		return beverage;
+	}
+	
+	public List<Beverage> getHolder(){
+		return holder;
+	}
+	
+	// 음료 잔량 조회
+	public int getRemain() {
+		return holder.size();
+	}
+	
+	// 홀더에 음료 추가
+	public void add(Beverage beverage) {
+		holder.add(beverage);
+	}
+	
+	// 홀더 음료 매진 여부 조회
+	public boolean checkSoldOut() {
+		isSoldOut = getRemain() == 0 ? true : false;
+		return isSoldOut;
+	}
+	
+	public int draw() {
+		if(!checkSoldOut()) {
+			Beverage beverage = holder.remove(holder.size()-1);
+		}
+	}
+}

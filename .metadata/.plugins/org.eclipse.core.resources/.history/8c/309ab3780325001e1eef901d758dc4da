@@ -1,0 +1,16 @@
+package constants;
+
+public enum Price {
+	
+	W800,
+	
+	W1000,
+	
+	W1200,
+	
+	W1400,
+	
+	W1600,
+	
+	W1800
+}

@@ -1,0 +1,30 @@
+package objects;
+
+import constants.Price;
+
+public abstract class Beverage {
+	
+	// 음료명
+	protected String name;
+	
+	// 제조사
+	protected String manufacturer;
+	
+	// 음료캔
+	protected String color;
+	
+	// 가격
+	protected Price price;
+	
+	// 탄산여부
+	protected boolean isSoftDrink;
+	
+	// 제로슈가여부
+	protected boolean isZeroSugar;
+	
+	// 매진 여부
+	protected boolean isSoldOut;
+	
+	// 재고
+	protected int remain;
+}

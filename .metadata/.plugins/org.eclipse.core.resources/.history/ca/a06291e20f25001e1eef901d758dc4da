@@ -1,0 +1,10 @@
+import java.util.*;
+
+public class TestMain {
+	public static void main(String[] args) {
+		HashMap<ArrayList<String>,String> map = new HashMap<>();
+		map.put("테스트", "12");
+		
+		System.out.println(map);
+	}
+}
