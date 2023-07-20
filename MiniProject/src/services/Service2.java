@@ -48,7 +48,7 @@ private BeverageVendMach bvm = BeverageVendMach.getVendingMachine();
 				if(b == null) {
 					continue;
 				}else {			
-				
+					System.out.println();
 					System.out.println("== " + inputName + "을 선택하셨습니다!");
 				}
 				
@@ -80,19 +80,32 @@ private BeverageVendMach bvm = BeverageVendMach.getVendingMachine();
 				
 				if(stack >= price) {
 					
-					System.out.println("음료가 뽑혔습니다.");
-					
 					Beverage buyedB = bvm.serveBeverage();
 					
+					String name = buyedB.getName();
+					String manufacturer = buyedB.getManufacturer();
+					String color = buyedB.getColor();
+					int capacity = buyedB.getCapacity();
+					
+					System.out.println();
+					System.out.println("========================");
+					System.out.printf("음료가 나왔습니다^^%n"
+							+ "	|음료명:	%s%n"
+							+ "	|제조사:	%s%n"
+							+ "	|색상:	%s%n"
+							+ "	|용량:	%dmL%n"
+							,name,manufacturer,color,capacity);
+				
 					System.out.println();
 					int returnCash = bvm.returnCash(buyedB);
 					System.out.println("거스름돈 " + returnCash + "원을 반환합니다.");
+					System.out.println();
 					break;
 				}
 			}
 		}
 		
-		System.out.println("음료가 매진되었습니다.");
+		System.out.println("== 음료가 매진되었습니다. ==");
 		bvm.powerOff();
 	}
 }
